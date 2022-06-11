@@ -18,8 +18,8 @@ let uptime = ""
 //Pusher - real time
 const pusher = new Pusher({
     appId: PUSHER_ID,
-    key: PUSHER_KEY,
-    secret: PUSHER_SECRET,
+    key: `"${PUSHER_KEY}"`,
+    secret: `"${PUSHER_SECRET}"`,
     cluster: "ap2",
     useTLS: true
 });
