@@ -18,11 +18,12 @@ let uptime = ""
 //Pusher - real time
 const pusher = new Pusher({
     appId: PUSHER_ID,
-    key: `"${PUSHER_KEY}"`,
-    secret: `"${PUSHER_SECRET}"`,
+    key: PUSHER_KEY,
+    secret: PUSHER_SECRET,
     cluster: "ap2",
     useTLS: true
 });
+
 
 //MIDDLEWARE
 app.use(express.json())
@@ -44,11 +45,14 @@ db.once( "open", () => {
 
     const msgCollection = db.collection("messagescollections")
     const changeStream = msgCollection.watch()
-
+    
     changeStream.on("change", (change) => {
         console.log("Change detected")
         if (change.operationType == 'insert') {
             pusher.trigger("messages", "inserted", change.fullDocument)
+            .then(()=>console.log("New message pushed"))
+            .catch((err) => console.log("Pusher error:", err))
+            
         } else {
             console.log("Error triggering pusher")
         }
