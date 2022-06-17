@@ -27,7 +27,11 @@ const pusher = new Pusher({
 
 //MIDDLEWARE
 app.use(express.json())
-app.use(cors({ origin: true }))
+app.use(cors({
+    origin:'*', 
+    credentials:true,
+    optionSuccessStatus:200,
+ }))
 
 //DB CONFIG
 const DB_CONN_URL=`mongodb+srv://${process.env.DBUSER}:${process.env.DBPASS}@cluster0.j8sft.mongodb.net/?retryWrites=true&w=majority`
